@@ -41,7 +41,6 @@ public abstract class ParcelPackage implements PostageInCurrency {
         public Double postageInBaseCurrency() {
             return 120d;
         }
-
     }
 
     private static final class MediumPackage extends ParcelPackage {
@@ -52,7 +51,6 @@ public abstract class ParcelPackage implements PostageInCurrency {
         public Double postageInBaseCurrency() {
             return (double) (weight * 4);
         }
-
     }
 
     private static final class DefaultPackage extends ParcelPackage {
@@ -63,6 +61,5 @@ public abstract class ParcelPackage implements PostageInCurrency {
         public Double postageInBaseCurrency() {
             return Math.max(weight, height * width * depth / 1000d) * 6;
         }
-
     }
 }

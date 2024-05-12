@@ -20,21 +20,21 @@ public abstract class Money {
 
     public static class BritishPound extends Money {
         public BritishPound(Double amountInBaseCurrency) {
-            this.currency =  Currency.Gbp;
+            this.currency = Currency.Gbp;
             this.amount = amountInBaseCurrency;
         }
     }
 
     public static class Euro extends Money {
         public Euro(Double amountInBaseCurrency) {
-            this.currency =  Currency.Eur;
+            this.currency = Currency.Eur;
             this.amount = (amountInBaseCurrency + 200) * 1.25d;
         }
     }
 
     public static class SwissFranc extends Money {
         public SwissFranc(Double amountInBaseCurrency) {
-            this.currency =  Currency.Chf;
+            this.currency = Currency.Chf;
             this.amount = (amountInBaseCurrency + 200) * 1.36d;
         }
     }
