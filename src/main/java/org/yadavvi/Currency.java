@@ -4,5 +4,9 @@ public enum Currency
 {
     Gbp,
     Eur,
-    Chf
+    Chf;
+
+    Money convertCurrency(double amountInBaseCurrency) throws Exception {
+        return Money.of(this, amountInBaseCurrency);
+    }
 }
