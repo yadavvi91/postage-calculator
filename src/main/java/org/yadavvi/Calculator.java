@@ -1,5 +1,7 @@
 package org.yadavvi;
 
+import java.util.Objects;
+
 public class Calculator {
     public Money calculate(Integer weight, Integer height, Integer width, Integer depth, Currency currency)
             throws Exception {
@@ -15,30 +17,107 @@ public class Calculator {
         throw new Exception("Currency not supported");
     }
 
+    interface PostageInCurrency {
+        Double postageInBaseCurrency();
+    }
+
     // So we got 3 types of different packages
     // Let's move them to their respective classes
-    private record Package(Integer weight, Integer height, Integer width, Integer depth) {
+    abstract static class Package implements PostageInCurrency {
+        final Integer weight;
+        final Integer height;
+        final Integer width;
+        final Integer depth;
+
+        private Package(Integer weight, Integer height, Integer width, Integer depth) {
+            this.weight = weight;
+            this.height = height;
+            this.width = width;
+            this.depth = depth;
+        }
+
+        private static boolean isMediumPackage(Integer weight, Integer height, Integer width, Integer depth) {
+            return weight <= 500 && height <= 324 && width <= 229 && depth <= 100;
+        }
+
+        private static boolean isSmallPackage(Integer weight, Integer height, Integer width, Integer depth) {
+            return weight <= 60 && height <= 229 && width <= 162 && depth <= 25;
+        }
+
+
         public static Package of(Integer weight, Integer height, Integer width, Integer depth) {
-            return new Package(weight, height, width, depth);
-        }
-
-        private Double postageInBaseCurrency() {
-            if (isSmallPackage()) {
-                return 120d;
+            if (isSmallPackage(weight, height, width, depth)) {
+                return new SmallPackage(weight, height, width, depth);
+            } else if (isMediumPackage(weight, height, width, depth)) {
+                return new MediumPackage(weight, height, width, depth);
+            } else {
+                return new DefaultPackage(weight, height, width, depth);
             }
-            if (isMediumPackage()) {
-                return (double) (weight() * 4);
-            }
-            // else isLargePackage() (isDefaultPackage()?)
-            return Math.max(weight(), height() * width() * depth() / 1000d) * 6;
         }
 
-        private boolean isMediumPackage() {
-            return weight() <= 500 && height() <= 324 && width() <= 229 && depth() <= 100;
+        public abstract Double postageInBaseCurrency();
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) return true;
+            if (obj == null || obj.getClass() != this.getClass()) return false;
+            var that = (Package) obj;
+            return Objects.equals(this.weight, that.weight) &&
+                    Objects.equals(this.height, that.height) &&
+                    Objects.equals(this.width, that.width) &&
+                    Objects.equals(this.depth, that.depth);
         }
 
-        private boolean isSmallPackage() {
-            return weight() <= 60 && height() <= 229 && width() <= 162 && depth() <= 25;
+        @Override
+        public int hashCode() {
+            return Objects.hash(weight, height, width, depth);
+        }
+
+    }
+
+    private static final class SmallPackage extends Package {
+        private SmallPackage(Integer weight, Integer height, Integer width, Integer depth) {
+            super(weight, height, width, depth);
+        }
+
+        public Double postageInBaseCurrency() {
+            return 120d;
+        }
+
+        @Override
+        public String toString() {
+            return STR."SmallPackage[weight=\{weight}, height=\{height}, width=\{width}, depth=\{depth}\{']'}";
         }
     }
+
+    private static final class MediumPackage extends Package {
+        private MediumPackage(Integer weight, Integer height, Integer width, Integer depth) {
+            super(weight, height, width, depth);
+        }
+
+        public Double postageInBaseCurrency() {
+            return (double) (weight * 4);
+        }
+
+        @Override
+        public String toString() {
+            return STR."MediumPackage[weight=\{weight}, height=\{height}, width=\{width}, depth=\{depth}\{']'}";
+        }
+    }
+
+    private static final class DefaultPackage extends Package {
+        private DefaultPackage(Integer weight, Integer height, Integer width, Integer depth) {
+            super(weight, height, width, depth);
+        }
+
+        public Double postageInBaseCurrency() {
+            return Math.max(weight, height * width * depth / 1000d) * 6;
+        }
+
+        @Override
+        public String toString() {
+            return STR."DefaultPackage[weight=\{weight}, height=\{height}, width=\{width}, depth=\{depth}\{']'}";
+        }
+    }
+
 }
