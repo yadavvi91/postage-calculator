@@ -3,8 +3,8 @@ package org.yadavvi;
 public class Calculator {
     public Money calculate(Integer weight, Integer height, Integer width, Integer depth, Currency currency)
             throws Exception {
-        Dimensions dimensions = new Dimensions(weight, height, width, depth);
-        var postageInBaseCurrency = dimensions.PostageInBaseCurrency();
+        Package aPackage = new Package(weight, height, width, depth);
+        var postageInBaseCurrency = aPackage.postageInBaseCurrency();
         return ConvertCurrency(postageInBaseCurrency, currency);
     }
 
@@ -15,8 +15,8 @@ public class Calculator {
         throw new Exception("Currency not supported");
     }
 
-    private record Dimensions(Integer weight, Integer height, Integer width, Integer depth) {
-        private Double PostageInBaseCurrency() {
+    private record Package(Integer weight, Integer height, Integer width, Integer depth) {
+        private Double postageInBaseCurrency() {
             if (isSmallPackage()) {
                 return 120d;
             }
