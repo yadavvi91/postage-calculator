@@ -3,7 +3,8 @@ package org.yadavvi;
 public class Calculator {
     public Money calculate(Integer weight, Integer height, Integer width, Integer depth, Currency currency)
             throws Exception {
-        var postageInBaseCurrency = new Dimensions(weight, height, width, depth).PostageInBaseCurrency();
+        Dimensions dimensions = new Dimensions(weight, height, width, depth);
+        var postageInBaseCurrency = dimensions.PostageInBaseCurrency();
         return ConvertCurrency(postageInBaseCurrency, currency);
     }
 
