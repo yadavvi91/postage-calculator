@@ -9,11 +9,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class CalculatorTest {
 
-    private Calculator calculator;
+    private CalculatorApp calculator;
 
     @BeforeEach
     public void setUp() {
-        calculator = new Calculator();
+        calculator = new CalculatorApp();
     }
 
 //    1st try
