@@ -32,19 +32,21 @@ record Dimension(Integer weight, Integer height, Integer width, Integer depth) {
 
 public class CalculatorApp {
 
-    private static boolean isMediumPackage(Integer weight, Integer height, Integer width, Integer depth) {
-        return weight <= 500 && height <= 324 && width <= 229 && depth <= 100;
+    private static boolean isMediumPackage(Dimension dimension) {
+        return dimension.weight() <= 500 && dimension.height() <= 324
+                && dimension.width() <= 229 && dimension.depth() <= 100;
     }
 
-    private static boolean isSmallPackage(Integer weight, Integer height, Integer width, Integer depth) {
-        return weight <= 60 && height <= 229 && width <= 162 && depth <= 25;
+    private static boolean isSmallPackage(Dimension dimension) {
+        return dimension.weight() <= 60 && dimension.height() <= 229
+                && dimension.width() <= 162 && dimension.depth() <= 25;
     }
 
     static Package createPackage(Integer weight, Integer height, Integer width, Integer depth) {
         Dimension dimension = new Dimension(weight, height, width, depth);
-        if (isSmallPackage(weight, height, width, depth)) {
+        if (isSmallPackage(dimension)) {
             return new SmallPackage(dimension);
-        } else if (isMediumPackage(weight, height, width, depth)) {
+        } else if (isMediumPackage(dimension)) {
             return new MediumPackage(dimension);
         } else {
             return new DefaultPackage(dimension);
