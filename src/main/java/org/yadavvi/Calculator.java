@@ -3,18 +3,8 @@ package org.yadavvi;
 public class Calculator {
     public Money calculate(Integer weight, Integer height, Integer width, Integer depth, Currency currency)
             throws Exception {
-        var postageInBaseCurrency = PostageInBaseCurrency(new Dimensions(weight, height, width, depth));
+        var postageInBaseCurrency = new Dimensions(weight, height, width, depth).PostageInBaseCurrency();
         return ConvertCurrency(postageInBaseCurrency, currency);
-    }
-
-    private Double PostageInBaseCurrency(Dimensions dimensions) {
-        if (dimensions.weight() <= 60 && dimensions.height() <= 229 && dimensions.width() <= 162 && dimensions.depth() <= 25) {
-            return 120d;
-        }
-        if (dimensions.weight() <= 500 && dimensions.height() <= 324 && dimensions.width() <= 229 && dimensions.depth() <= 100) {
-            return (double) (dimensions.weight() * 4);
-        }
-        return Math.max(dimensions.weight(), dimensions.height() * dimensions.width() * dimensions.depth() / 1000d) * 6;
     }
 
     private Money ConvertCurrency(double amountInBaseCurrency, Currency currency) throws Exception {
@@ -24,6 +14,15 @@ public class Calculator {
         throw new Exception("Currency not supported");
     }
 
-    private static record Dimensions(Integer weight, Integer height, Integer width, Integer depth) {
+    private record Dimensions(Integer weight, Integer height, Integer width, Integer depth) {
+        private Double PostageInBaseCurrency() {
+            if (weight() <= 60 && height() <= 229 && width() <= 162 && depth() <= 25) {
+                return 120d;
+            }
+            if (weight() <= 500 && height() <= 324 && width() <= 229 && depth() <= 100) {
+                return (double) (weight() * 4);
+            }
+            return Math.max(weight(), height() * width() * depth() / 1000d) * 6;
+        }
     }
 }
