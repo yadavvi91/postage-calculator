@@ -36,19 +36,10 @@ public class Calculator {
             this.depth = depth;
         }
 
-        private static boolean isMediumPackage(Integer weight, Integer height, Integer width, Integer depth) {
-            return weight <= 500 && height <= 324 && width <= 229 && depth <= 100;
-        }
-
-        private static boolean isSmallPackage(Integer weight, Integer height, Integer width, Integer depth) {
-            return weight <= 60 && height <= 229 && width <= 162 && depth <= 25;
-        }
-
-
         public static Package of(Integer weight, Integer height, Integer width, Integer depth) {
-            if (isSmallPackage(weight, height, width, depth)) {
+            if (weight <= 60 && height <= 229 && width <= 162 && depth <= 25) {
                 return new SmallPackage(weight, height, width, depth);
-            } else if (isMediumPackage(weight, height, width, depth)) {
+            } else if (weight <= 500 && height <= 324 && width <= 229 && depth <= 100) {
                 return new MediumPackage(weight, height, width, depth);
             } else {
                 return new DefaultPackage(weight, height, width, depth);
@@ -73,6 +64,10 @@ public class Calculator {
             return Objects.hash(weight, height, width, depth);
         }
 
+        @Override
+        public String toString() {
+            return STR."Package[weight=\{weight}, height=\{height}, width=\{width}, depth=\{depth}\{']'}";
+        }
     }
 
     private static final class SmallPackage extends Package {
@@ -84,10 +79,6 @@ public class Calculator {
             return 120d;
         }
 
-        @Override
-        public String toString() {
-            return STR."SmallPackage[weight=\{weight}, height=\{height}, width=\{width}, depth=\{depth}\{']'}";
-        }
     }
 
     private static final class MediumPackage extends Package {
@@ -99,10 +90,6 @@ public class Calculator {
             return (double) (weight * 4);
         }
 
-        @Override
-        public String toString() {
-            return STR."MediumPackage[weight=\{weight}, height=\{height}, width=\{width}, depth=\{depth}\{']'}";
-        }
     }
 
     private static final class DefaultPackage extends Package {
@@ -114,10 +101,6 @@ public class Calculator {
             return Math.max(weight, height * width * depth / 1000d) * 6;
         }
 
-        @Override
-        public String toString() {
-            return STR."DefaultPackage[weight=\{weight}, height=\{height}, width=\{width}, depth=\{depth}\{']'}";
-        }
     }
 
 }
