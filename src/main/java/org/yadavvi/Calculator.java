@@ -5,11 +5,11 @@ public class Calculator {
             throws Exception {
         ParcelPackage parcelPackage = ParcelPackage.of(weight, height, width, depth);
         var postageInBaseCurrency = parcelPackage.postageInBaseCurrency();
-        Money money = ConvertCurrency(postageInBaseCurrency, currency);
+        Money money = convertCurrency(currency, postageInBaseCurrency);
         return money;
     }
 
-    private Money ConvertCurrency(double amountInBaseCurrency, Currency currency) throws Exception {
+    private Money convertCurrency(Currency currency, double amountInBaseCurrency) throws Exception {
         return Money.of(currency, amountInBaseCurrency);
     }
 
