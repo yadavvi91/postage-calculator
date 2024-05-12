@@ -1,0 +1,5 @@
+[Input[500,324,229,100,Gbp]] => Currency: Gbp, Amount: 2000.0 
+[Input[501,324,229,100,Gbp]] => Currency: Gbp, Amount: 44517.600000000006 
+[Input[500,325,229,100,Gbp]] => Currency: Gbp, Amount: 44655.0 
+[Input[500,324,230,100,Gbp]] => Currency: Gbp, Amount: 44712.0 
+[Input[500,324,229,101,Gbp]] => Currency: Gbp, Amount: 44962.776 

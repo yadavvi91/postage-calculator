@@ -1,0 +1,4 @@
+[Input[0,0,0,0,Gbp]] => Currency: Gbp, Amount: 120.0 
+[Input[0,0,0,0,Eur]] => Currency: Eur, Amount: 400.0 
+[Input[0,0,0,0,Chf]] => Currency: Chf, Amount: 435.20000000000005 
+[Input[0,0,0,0,null]] => null 
