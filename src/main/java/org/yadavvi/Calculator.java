@@ -16,13 +16,22 @@ public class Calculator {
 
     private record Dimensions(Integer weight, Integer height, Integer width, Integer depth) {
         private Double PostageInBaseCurrency() {
-            if (weight() <= 60 && height() <= 229 && width() <= 162 && depth() <= 25) {
+            if (isSmallPackage()) {
                 return 120d;
             }
-            if (weight() <= 500 && height() <= 324 && width() <= 229 && depth() <= 100) {
+            if (isMediumPackage()) {
                 return (double) (weight() * 4);
             }
+            // else isLargePackage() (isDefaultPackage()?)
             return Math.max(weight(), height() * width() * depth() / 1000d) * 6;
+        }
+
+        private boolean isMediumPackage() {
+            return weight() <= 500 && height() <= 324 && width() <= 229 && depth() <= 100;
+        }
+
+        private boolean isSmallPackage() {
+            return weight() <= 60 && height() <= 229 && width() <= 162 && depth() <= 25;
         }
     }
 }
