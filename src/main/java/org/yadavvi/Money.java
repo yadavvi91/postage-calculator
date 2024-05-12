@@ -3,12 +3,7 @@ package org.yadavvi;
 public abstract class Money {
 
     public Currency currency;
-    public Double amountInBaseCurrency;
-
-    public Money(Currency currency, Double amountInBaseCurrency) {
-        this.currency = currency;
-        this.amountInBaseCurrency = amountInBaseCurrency;
-    }
+    public Double amount;
 
     static Money of(Currency currency, Double amountInBaseCurrency) {
         return switch (currency) {
@@ -20,7 +15,7 @@ public abstract class Money {
 
     @Override
     public String toString() {
-        return STR."Currency: \{currency}, Amount: \{amountInBaseCurrency}";
+        return STR."Currency: \{currency}, Amount: \{amount}";
     }
 
 }
