@@ -42,8 +42,7 @@ public class CalculatorApp {
                 && dimension.width() <= 162 && dimension.depth() <= 25;
     }
 
-    static Package createPackage(Integer weight, Integer height, Integer width, Integer depth) {
-        Dimension dimension = new Dimension(weight, height, width, depth);
+    static Package createPackage(Dimension dimension) {
         if (isSmallPackage(dimension)) {
             return new SmallPackage(dimension);
         } else if (isMediumPackage(dimension)) {
@@ -55,7 +54,8 @@ public class CalculatorApp {
 
     public Money calculate(Integer weight, Integer height, Integer width, Integer depth, Currency currency)
             throws Exception {
-        Package postage = CalculatorApp.createPackage(weight, height, width, depth);
+        Dimension dimension = new Dimension(weight, height, width, depth);
+        Package postage = CalculatorApp.createPackage(dimension);
         var postageInBaseCurrency = postage.postageInBaseCurrency();
         return currency.convertCurrency(postageInBaseCurrency);
     }
