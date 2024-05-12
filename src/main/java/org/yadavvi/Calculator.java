@@ -15,6 +15,8 @@ public class Calculator {
         throw new Exception("Currency not supported");
     }
 
+    // So we got 3 types of different packages
+    // Let's move them to their respective classes
     private record Package(Integer weight, Integer height, Integer width, Integer depth) {
         private Double postageInBaseCurrency() {
             if (isSmallPackage()) {
