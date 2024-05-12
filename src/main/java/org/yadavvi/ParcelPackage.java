@@ -25,24 +25,32 @@ public abstract class ParcelPackage implements PostageInCurrency {
         } else {
             type = "DEFAULT";
         }
+//        return switch (type) {
+//            case "SMALL" -> new ParcelPackage(weight, height, width, depth) {
+//                public Double postageInBaseCurrency() {
+//                    return 120d;
+//                }
+//            };
+//            case "MEDIUM" -> new ParcelPackage(weight, height, width, depth) {
+//                public Double postageInBaseCurrency() {
+//                    return (double) (weight * 4);
+//                }
+//            };
+//            case "DEFAULT" -> new ParcelPackage(weight, height, width, depth) {
+//                public Double postageInBaseCurrency() {
+//                    return Math.max(weight, height * width * depth / 1000d) * 6;
+//                }
+//            };
+//            default -> throw new IllegalStateException(STR."Unexpected value: \{type}");
+//        };
+        // How I wish Java had something like this -
         return switch (type) {
-            case "SMALL" -> new ParcelPackage(weight, height, width, depth) {
-                public Double postageInBaseCurrency() {
-                    return 120d;
-                }
-            };
-            case "MEDIUM" -> new ParcelPackage(weight, height, width, depth) {
-                public Double postageInBaseCurrency() {
-                    return (double) (weight * 4);
-                }
-            };
-            case "DEFAULT" -> new ParcelPackage(weight, height, width, depth) {
-                public Double postageInBaseCurrency() {
-                    return Math.max(weight, height * width * depth / 1000d) * 6;
-                }
-            };
+            case "SMALL" -> 120d;
+            case "MEDIUM" -> (double) (weight * 4);
+            case "DEFAULT" -> Math.max(weight, height * width * depth / 1000d) * 6;
             default -> throw new IllegalStateException(STR."Unexpected value: \{type}");
         };
+
     }
 
     public abstract Double postageInBaseCurrency();
