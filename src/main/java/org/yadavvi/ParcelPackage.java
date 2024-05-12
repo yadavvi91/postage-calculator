@@ -17,13 +17,32 @@ public abstract class ParcelPackage implements PostageInCurrency {
     }
 
     public static ParcelPackage of(Integer weight, Integer height, Integer width, Integer depth) {
+        String type = "";
         if (weight <= 60 && height <= 229 && width <= 162 && depth <= 25) {
-            return new SmallPackage(weight, height, width, depth);
+            type = "SMALL";
         } else if (weight <= 500 && height <= 324 && width <= 229 && depth <= 100) {
-            return new MediumPackage(weight, height, width, depth);
+            type = "MEDIUM";
         } else {
-            return new DefaultPackage(weight, height, width, depth);
+            type = "DEFAULT";
         }
+        return switch (type) {
+            case "SMALL" -> new ParcelPackage(weight, height, width, depth) {
+                public Double postageInBaseCurrency() {
+                    return 120d;
+                }
+            };
+            case "MEDIUM" -> new ParcelPackage(weight, height, width, depth) {
+                public Double postageInBaseCurrency() {
+                    return (double) (weight * 4);
+                }
+            };
+            case "DEFAULT" -> new ParcelPackage(weight, height, width, depth) {
+                public Double postageInBaseCurrency() {
+                    return Math.max(weight, height * width * depth / 1000d) * 6;
+                }
+            };
+            default -> throw new IllegalStateException(STR."Unexpected value: \{type}");
+        };
     }
 
     public abstract Double postageInBaseCurrency();
@@ -33,36 +52,4 @@ public abstract class ParcelPackage implements PostageInCurrency {
         return STR."Package[weight=\{weight}, height=\{height}, width=\{width}, depth=\{depth}\{']'}";
     }
 
-    private static final class SmallPackage extends ParcelPackage {
-        private SmallPackage(Integer weight, Integer height, Integer width, Integer depth) {
-            super(weight, height, width, depth);
-        }
-
-        public Double postageInBaseCurrency() {
-            return 120d;
-        }
-
-    }
-
-    private static final class MediumPackage extends ParcelPackage {
-        private MediumPackage(Integer weight, Integer height, Integer width, Integer depth) {
-            super(weight, height, width, depth);
-        }
-
-        public Double postageInBaseCurrency() {
-            return (double) (weight * 4);
-        }
-
-    }
-
-    private static final class DefaultPackage extends ParcelPackage {
-        private DefaultPackage(Integer weight, Integer height, Integer width, Integer depth) {
-            super(weight, height, width, depth);
-        }
-
-        public Double postageInBaseCurrency() {
-            return Math.max(weight, height * width * depth / 1000d) * 6;
-        }
-
-    }
 }
