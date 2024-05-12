@@ -1,7 +1,8 @@
 package org.yadavvi;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public abstract class ParcelPackage implements PostageInCurrency {
     final Integer weight;
     final Integer height;
@@ -26,22 +27,6 @@ public abstract class ParcelPackage implements PostageInCurrency {
     }
 
     public abstract Double postageInBaseCurrency();
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (ParcelPackage) obj;
-        return Objects.equals(this.weight, that.weight) &&
-                Objects.equals(this.height, that.height) &&
-                Objects.equals(this.width, that.width) &&
-                Objects.equals(this.depth, that.depth);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(weight, height, width, depth);
-    }
 
     @Override
     public String toString() {
