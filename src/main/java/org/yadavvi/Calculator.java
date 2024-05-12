@@ -3,7 +3,7 @@ package org.yadavvi;
 public class Calculator {
     public Money calculate(Integer weight, Integer height, Integer width, Integer depth, Currency currency)
             throws Exception {
-        Package aPackage = new Package(weight, height, width, depth);
+        Package aPackage = Package.of(weight, height, width, depth);
         var postageInBaseCurrency = aPackage.postageInBaseCurrency();
         return ConvertCurrency(postageInBaseCurrency, currency);
     }
@@ -18,6 +18,10 @@ public class Calculator {
     // So we got 3 types of different packages
     // Let's move them to their respective classes
     private record Package(Integer weight, Integer height, Integer width, Integer depth) {
+        public static Package of(Integer weight, Integer height, Integer width, Integer depth) {
+            return new Package(weight, height, width, depth);
+        }
+
         private Double postageInBaseCurrency() {
             if (isSmallPackage()) {
                 return 120d;
